@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Metody płatności</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        var productUrl = "";
+
+        // Funkcja do pokazania formularza płatności i zapisania URL dla produktu
+        function showPaymentForm(productName, productPrice, redirectUrl) {
+            document.getElementById("productTitle").innerHTML = productName;
+            document.getElementById("productPrice").innerHTML = productPrice;
+            productUrl = redirectUrl; // Zapamiętujemy URL produktu
+
+            // Ukrywamy menu główne i pokazujemy formularz płatności
+            document.getElementById("productSelection").style.display = "none";
+            document.getElementById("paymentForm").style.display = "block";
+        }
+
+        // Funkcja do zastosowania kodu rabatowego
+        function applyCode() {
+            var code1 = document.getElementById("code1").value;
+            var code2 = document.getElementById("code2").value;
+            var originalPrice = parseFloat(document.getElementById("productPrice").innerHTML); // Pobieramy cenę produktu
+            var finalPrice = originalPrice;
+
+            // Sprawdzanie kodów rabatowych
+            if (code1 === "1") {
+                finalPrice *= 0.3; // 70% zniżki
+                document.getElementById("discount").innerHTML = "Zastosowano Kod 1 - 70% zniżki.";
+            } else if (code1 === "2") {
+                finalPrice -= 5; // 5 zł zniżki
+                document.getElementById("discount").innerHTML = "Zastosowano Kod 2 - 5 zł zniżki.";
+            } else if (code1 !== "") {
+                document.getElementById("discount").innerHTML = "Nieprawidłowy Kod 1!";
+                return;
+            }
+
+            if (code2 === "1") {
+                finalPrice *= 0.3; // 70% zniżki
+                document.getElementById("discount").innerHTML = "Zastosowano Kod 1 - 70% zniżki.";
+            } else if (code2 === "2") {
+                finalPrice -= 5; // 5 zł zniżki
+                document.getElementById("discount").innerHTML = "Zastosowano Kod 2 - 5 zł zniżki.";
+            } else if (code2 !== "") {
+                document.getElementById("discount").innerHTML = "Nieprawidłowy Kod 2!";
+                return;
+            }
+
+            // Upewniamy się, że cena nie jest ujemna
+            if (finalPrice < 0) finalPrice = 0;
+
+            // Wyświetlamy finalną cenę
+            document.getElementById("finalPrice").innerHTML = "Cena po zastosowaniu kodu: " + finalPrice.toFixed(2) + " zł";
+        }
+
+        // Funkcja do przekierowania na stronę zakupu
+        function proceedToPurchase() {
+            window.location.href = productUrl; // Przekierowanie na odpowiednią stronę
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Główne menu -->
+        <div id="productSelection">
+            <div class="item">
+                <img src="1.png" alt="DDos Tool">
+                <div class="product-card">
+                    <h2>DDos Tool</h2>
+                    <p class="old-price">29.99zł</p>
+                    <p class="new-price">14.99zł</p>
+                    <!-- Kontener z przyciskami obok siebie -->
+                    <div class="product-button-container">
+                        <button class="product-button" onclick="showPaymentForm('DDos Tool', 14.99, 'https://www.mediafire.com/file/yi3a7zzuzgeqvuv/DDos_8.2.zip/file')">Kup</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item">
+                <img src="2.png" alt="Wyciek Rapy.pl">
+                <div class="product-card">
+                    <h2>Wyciek Rapy.pl</h2>
+                    <p class="old-price">9.99zł</p>
+                    <p class="new-price">5.99zł</p>
+                    <!-- Kontener z przyciskami obok siebie -->
+                    <div class="product-button-container">
+                        <button class="product-button" onclick="showPaymentForm('Wyciek Rapy.pl', 5.99, 'https://2')">Kup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formularz płatności -->
+        <div id="paymentForm" class="payment-method" style="display: none;">
+            <h2 id="productTitle">Metoda Płatności</h2>
+            <p>Cena: <span id="productPrice"></span></p>
+            <label for="code1">Wpisz Kod 1:</label>
+            <input type="text" id="code1" placeholder="Kod 1" />
+            <br><br>
+            <label for="code2">Wpisz Kod 2:</label>
+            <input type="text" id="code2" placeholder="Kod 2" />
+            <br><br>
+            <button onclick="applyCode()">Zastosuj Kody</button>
+            <br><br>
+            <p id="discount"></p>
+            <p id="finalPrice">Cena po zastosowaniu kodu: </p>
+            <br><br>
+            <!-- Przycisk kup teraz, który przekierowuje na stronę zakupu -->
+            <button class="product-button" onclick="proceedToPurchase()">Kup teraz</button>
+        </div>
+    </div>
+
+    <footer class="page-footer">
+        !WARNING! - Some options may be illegal to use, use them wisely
+    </footer>
+</body>
+</html>
